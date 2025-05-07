@@ -1,0 +1,36 @@
+main
+{
+  max-width: 1050px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: white;
+}
+body
+{
+  background-color: black;
+}
+
+.flex
+{
+  display:flex;
+}
+.grid
+{
+  column-gap: 20px;
+  row-gap: 20px;
+  display:grid;
+  grid-template-columns: repeat(2,1fr);
+}
+.big
+{
+  font-size: 18px;
+}
+table
+{
+  border: black solid 3px;
+  padding:5px;
+  margin-bottom: 10px;
+  margin: 5px auto;
+}
