@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import OrganizationElement from './OrganizationElement';
-import ColumnHandler from './ColumnHandler.jsx';
+import ColumnHandler from './ColumnHandler_V2.jsx';
 import './App.css'
 import get_excel_data from './get_excel_data.js'
 
@@ -32,20 +32,6 @@ function App() {
         else
         {
           sorted_data=sorted_data.filter(organization => organization[column]==inputs[column]);
-        }
-      }
-
-      //Check select values to filter
-      if(selects[column])
-      {
-        //Filter with includes if the input is a string. Otherwise filter by equality.
-        if(isNaN(selects[column]))
-        {
-          sorted_data=sorted_data.filter(organization => organization[column].toUpperCase().includes(selects[column].toUpperCase()));
-        }
-        else
-        {
-          sorted_data=sorted_data.filter(organization => organization[column]==selects[column]);
         }
       }
     }
@@ -118,14 +104,6 @@ function App() {
     setInputs({...inputs,[column]:value});
   }
 
-  //Update the value of a select.
-  function handleSelects(e)
-  {
-    const column=e.target.name;
-    const value=e.target.value;
-    setSelects({...selects,[column]:value});
-  }
-
   //Get all unique values from a column
   function get_unique_values(column)
   {
@@ -161,9 +139,8 @@ function App() {
       //Create a column td for each column
       const column_td=
       (
-          <ColumnHandler key={column} column={column} input_value={inputs[column]} select_value={selects[column]} handleInputs={handleInputs} handleSelects={handleSelects} update_sort={update_sort} unique_values={unique_values} ></ColumnHandler>
+          <ColumnHandler key={column} column={column} input_value={inputs[column]} handleInputs={handleInputs} update_sort={update_sort} unique_values={unique_values} ></ColumnHandler>
       );
-      //console.log(column+" "+selects[column]);
       columns_mapped_body_temp.push(column_td);
     }
     setColumnsMappedBody(columns_mapped_body_temp);
@@ -172,9 +149,6 @@ function App() {
 
   //Creates an input for each column
   const [inputs,setInputs]=useState(Object.fromEntries(columns.map(key => [key, ""])));
-
-  //Creates a select for each column
-  const [selects,setSelects]=useState(Object.fromEntries(columns.map(key => [key, ""])));
 
   const [organization_elements_mapped, setOrganization_Elements_Mapped ] = useState();
 
@@ -207,10 +181,10 @@ function App() {
       display_data();
       setup_columns();
     }
-  }, [organization_dictionaries,sort_column,sort_direction,inputs,selects]); // <- this runs every time `data` changes
+  }, [organization_dictionaries,sort_column,sort_direction,inputs]); // <- this runs every time `data` changes
 
   useEffect(()=> {
-    const columns_mapped_head_temp=columns.map(column =><th className="big" key={column}>{column}</th>);
+    const columns_mapped_head_temp=columns.map(column =><th className="big" key={column}>{column.replace("_"," ")}</th>);
     setColumnsMappedHead(columns_mapped_head_temp);
   },[]);
   
@@ -219,21 +193,23 @@ function App() {
   {
     return (
     <>
-    <h1>Autism Resources</h1>
-    <table>
+    <h1>New Jersey Autism Resources</h1>
+    <h2>By Spectrum Works</h2>    
+    <table className="column_table">
     <thead><tr>{columns_mapped_head}</tr></thead>
     <tbody><tr>{columns_mapped_body}</tr></tbody>
     </table>
     <h2>No Resources Found</h2>
-    <p>Please change input or selects</p>
+    <p>Please change inputs</p>
     </>
     );
   }
 
   return (
     <>
-    <h1>Autism Resources</h1>
-    <table>
+    <h1>New Jersey Autism Resources</h1>
+    <h2>By Spectrum Works</h2>
+    <table className="column_table">
     <thead><tr>{columns_mapped_head}</tr></thead>
     <tbody><tr>{columns_mapped_body}</tr></tbody>
     </table>

@@ -23,9 +23,8 @@ function ColumnHandler(props)
         <button onClick={() => props.update_sort(column,"ASC")}>&#8593;</button>
         <button onClick={() => props.update_sort(column,"DESC")}>&#8595;</button><br></br>
         <label htmlFor={column+"_search"}>Search:</label>
-        <input value={props.input_value} type={input_type} name={column} id={column+"_search"} onChange={props.handleInputs}/>
-        <label htmlFor={column+"_filter"}>Target {column_written}</label>
-        <select onChange={props.handleSelects} name={column} id={column+"_filter"} value={props.select_value}>{options}</select>
+        <input value={props.input_value} list={column+"_list"} type={input_type} name={column} id={column+"_search"} onChange={props.handleInputs}/>
+        <datalist id={column+"_list"}>{options}</datalist>
         </td>
     )
 }
